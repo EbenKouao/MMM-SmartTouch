@@ -123,14 +123,14 @@ Module.register("MMM-SmartTouch", {
         //mobile_toggle_div.addEventListener("click", () => SideMenu());
         //#END #DBH
 
-        //Main Menu Bar
-        var main_menu = document.createElement("div");
-        main_menu.className = "main-menu"
-        main_menu.id = "navbar"
-        home_div.appendChild(main_menu)
-        var main_menu_ul = document.createElement("ul");
-        main_menu_ul.className = "navbar-nav"
-        main_menu.appendChild(main_menu_ul)
+        //Main formatted Side Menu container
+        var main_menu = "";//document.createElement("div");
+        //main_menu.className = "main-menu"
+        //main_menu.id = "navbar"
+        //home_div.appendChild(main_menu)
+        //var main_menu_ul = document.createElement("ul");
+        //main_menu_ul.className = "navbar-nav"
+        //main_menu.appendChild(main_menu_ul)
 
         //Power Off Button
         //var main_menu_li_shutdown = document.createElement("li");
@@ -148,8 +148,6 @@ Module.register("MMM-SmartTouch", {
         //main_menu_ul.appendChild(main_menu_li_restart)
         //main_menu_li_restart.addEventListener("click", () => this.sendSocketNotification("RESTART", {}));
 
-
-
         return home_div;
     },
 
@@ -157,7 +155,7 @@ Module.register("MMM-SmartTouch", {
 
         if (notification === "Recieved") {
             //this.doMenuAction(payload);
-            console.log("Hi")
+            console.log("MMM-SmartTouch received update.")
         }
 
     },
@@ -169,7 +167,7 @@ Module.register("MMM-SmartTouch", {
     switch(notification) {
       case "Sent":
 
-        console.log("Hi");
+        console.log("MMM-SmartTouch fired update.");
 
       break;
 
