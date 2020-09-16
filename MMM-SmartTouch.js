@@ -109,14 +109,19 @@ Module.register("MMM-SmartTouch", {
 
         function SideMenu() {
           
-        var mobile_toggle_div_t = document.getElementById("show")
-        mobile_toggle_div.classList.toggle('show');
-        var main_menu_t = document.getElementById("navbar")
-        main_menu.classList.toggle('show')
-          
+        //#BGN #DBH Commenting out the SideMenu because I don't like it
+        // Eventually, I might make this configurable from the Config file
+        //
+        //var mobile_toggle_div_t = document.getElementById("show")
+        //mobile_toggle_div.classList.toggle('show');
+        //var main_menu_t = document.getElementById("navbar")
+        //main_menu.classList.toggle('show')
+        return
+        
         }
 
-        mobile_toggle_div.addEventListener("click", () => SideMenu());
+        //mobile_toggle_div.addEventListener("click", () => SideMenu());
+        //#END #DBH
 
         //Main Menu Bar
         var main_menu = document.createElement("div");
