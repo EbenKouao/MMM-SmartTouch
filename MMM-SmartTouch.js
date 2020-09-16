@@ -28,7 +28,7 @@ Module.register("MMM-SmartTouch", {
 
     // Override dom generator.
     getDom: function() {
-    
+
         var wrapper = document.createElement("div");
         wrapper.className = 'simple-logo__container';
         wrapper.innerHTML = "Hello, World!"
@@ -73,7 +73,7 @@ Module.register("MMM-SmartTouch", {
             x.style.display = "block";
             hideUI.classList.toggle('fade');
             home_div.style.visibility = "visible"
-   
+
           } else {
             x.style.display = "none";
             hideUI.classList.toggle('show');
@@ -88,7 +88,7 @@ Module.register("MMM-SmartTouch", {
         mobile_toggle_div.id = "show"
         home_div.appendChild(mobile_toggle_div)
 
-        
+
         var one_icon = document.createElement("div");
         one_icon.className = 'mobile-toggle one';
         mobile_toggle_div.appendChild(one_icon);
@@ -100,7 +100,7 @@ Module.register("MMM-SmartTouch", {
         var three_icon = document.createElement("div");
         three_icon.className = 'three';
         mobile_toggle_div.appendChild(three_icon);
-        
+
         //mobile_toggle_div.classList.add(this.config.position);
         //mobile_toggle_div.style.width = this.config.width;
 
@@ -108,64 +108,67 @@ Module.register("MMM-SmartTouch", {
 
 
         function SideMenu() {
-          
-        var mobile_toggle_div_t = document.getElementById("show")
-        mobile_toggle_div.classList.toggle('show');
-        var main_menu_t = document.getElementById("navbar")
-        main_menu.classList.toggle('show')
-          
+
+        //#BGN #DBH Commenting out the SideMenu because I don't like it
+        // Eventually, I might make this configurable from the Config file
+        //
+        //var mobile_toggle_div_t = document.getElementById("show")
+        //mobile_toggle_div.classList.toggle('show');
+        //var main_menu_t = document.getElementById("navbar")
+        //main_menu.classList.toggle('show')
+        return
+
         }
 
-        mobile_toggle_div.addEventListener("click", () => SideMenu());
+        //mobile_toggle_div.addEventListener("click", () => SideMenu());
+        //#END #DBH
 
-        //Main Menu Bar
-        var main_menu = document.createElement("div");
-        main_menu.className = "main-menu"
-        main_menu.id = "navbar"
-        home_div.appendChild(main_menu)
-        var main_menu_ul = document.createElement("ul");
-        main_menu_ul.className = "navbar-nav"
-        main_menu.appendChild(main_menu_ul)
-        
+        //Main formatted Side Menu container
+        var main_menu = "";//document.createElement("div");
+        //main_menu.className = "main-menu"
+        //main_menu.id = "navbar"
+        //home_div.appendChild(main_menu)
+        //var main_menu_ul = document.createElement("ul");
+        //main_menu_ul.className = "navbar-nav"
+        //main_menu.appendChild(main_menu_ul)
+
         //Power Off Button
-        var main_menu_li_shutdown = document.createElement("li");
-        main_menu_li_shutdown.innerHTML = "<span class='fa fa-power-off fa-3x'></span>" + "<br>Shutdown <hr>";
-        main_menu_li_shutdown.className = "li-t"
-        main_menu_ul.appendChild(main_menu_li_shutdown)
+        //var main_menu_li_shutdown = document.createElement("li");
+        //main_menu_li_shutdown.innerHTML = "<span class='fa fa-power-off fa-3x'></span>" + "<br>Shutdown <hr>";
+        //main_menu_li_shutdown.className = "li-t"
+        //main_menu_ul.appendChild(main_menu_li_shutdown)
 
         //Onclick event to send shutdown notification
-        main_menu_li_shutdown.addEventListener("click", () => this.sendSocketNotification("SHUTDOWN", {}));
+        //main_menu_li_shutdown.addEventListener("click", () => this.sendSocketNotification("SHUTDOWN", {}));
 
         //Restart Button
-        var main_menu_li_restart = document.createElement("li");
-        main_menu_li_restart.innerHTML = "<span class='fa fa-repeat fa-3x'></span>" + "<br>Restart";
-        main_menu_li_restart.className = "li-t"
-        main_menu_ul.appendChild(main_menu_li_restart)
-        main_menu_li_restart.addEventListener("click", () => this.sendSocketNotification("RESTART", {}));
+        //var main_menu_li_restart = document.createElement("li");
+        //main_menu_li_restart.innerHTML = "<span class='fa fa-repeat fa-3x'></span>" + "<br>Restart";
+        //main_menu_li_restart.className = "li-t"
+        //main_menu_ul.appendChild(main_menu_li_restart)
+        //main_menu_li_restart.addEventListener("click", () => this.sendSocketNotification("RESTART", {}));
 
-
-        
         return home_div;
     },
 
     notificationReceived: function(notification, payload, sender) {
-        
+
         if (notification === "Recieved") {
             //this.doMenuAction(payload);
-            console.log("Hi")
+            console.log("MMM-SmartTouch received update.")
         }
 
     },
 
     //Recieve notification from sockets via nodehelper.js
     socketNotificationReceived: function(notification, payload) {
-    
+
 
     switch(notification) {
       case "Sent":
-          
-        console.log("Hi");
-         
+
+        console.log("MMM-SmartTouch fired update.");
+
       break;
 
   }
