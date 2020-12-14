@@ -31,13 +31,13 @@ Module.register("MMM-SmartTouch", {
     
         var wrapper = document.createElement("div");
         wrapper.className = 'simple-logo__container';
-        wrapper.innerHTML = "Hello, World!"
+        //wrapper.innerHTML = "Hello, World!"
         wrapper.classList.add(this.config.position);
         wrapper.style.width = this.config.width;
-        var text = document.createTextNode(this.config.text);
-        wrapper.appendChild(text);
-        var img = document.createElement("img");
-        img.setAttribute('src', this.config.fileUrl);
+        //var text = document.createTextNode(this.config.text);
+        //wrapper.appendChild(text);
+        //var img = document.createElement("img");
+        //img.setAttribute('src', this.config.fileUrl);
         //wrapper.appendChild(img);
 
         //Home Button
@@ -59,8 +59,8 @@ Module.register("MMM-SmartTouch", {
         var home_span = document.createElement("span");
         home_icon.appendChild(home_span);
         home_div.classList.add(this.config.position);
-        home_div.style.width = this.config.width;
-        home_div.appendChild(text);
+        //home_div.style.width = this.config.width;
+        //home_div.appendChild(text);
 
 
         function StandBy() {
@@ -107,41 +107,41 @@ Module.register("MMM-SmartTouch", {
         home_icon.addEventListener("click", () => StandBy());
 
 
-        function SideMenu() {
+        //function SideMenu() {
           
-        var mobile_toggle_div_t = document.getElementById("show")
-        mobile_toggle_div.classList.toggle('show');
-        var main_menu_t = document.getElementById("navbar")
-        main_menu.classList.toggle('show')
+        //var mobile_toggle_div_t = document.getElementById("show")
+        //mobile_toggle_div.classList.toggle('show');
+        //var main_menu_t = document.getElementById("navbar")
+        //main_menu.classList.toggle('show')
           
-        }
+        //}
 
-        mobile_toggle_div.addEventListener("click", () => SideMenu());
+        //mobile_toggle_div.addEventListener("click", () => SideMenu());
 
         //Main Menu Bar
-        var main_menu = document.createElement("div");
-        main_menu.className = "main-menu"
-        main_menu.id = "navbar"
-        home_div.appendChild(main_menu)
-        var main_menu_ul = document.createElement("ul");
-        main_menu_ul.className = "navbar-nav"
-        main_menu.appendChild(main_menu_ul)
+        //var main_menu = document.createElement("div");
+        //main_menu.className = "main-menu"
+        //main_menu.id = "navbar"
+        //home_div.appendChild(main_menu)
+        //var main_menu_ul = document.createElement("ul");
+        //main_menu_ul.className = "navbar-nav"
+        //main_menu.appendChild(main_menu_ul)
         
         //Power Off Button
-        var main_menu_li_shutdown = document.createElement("li");
-        main_menu_li_shutdown.innerHTML = "<span class='fa fa-power-off fa-3x'></span>" + "<br>Shutdown <hr>";
-        main_menu_li_shutdown.className = "li-t"
-        main_menu_ul.appendChild(main_menu_li_shutdown)
+        //var main_menu_li_shutdown = document.createElement("li");
+        //main_menu_li_shutdown.innerHTML = "<span class='fa fa-power-off fa-3x'></span>" + "<br>Shutdown <hr>";
+        //main_menu_li_shutdown.className = "li-t"
+        //main_menu_ul.appendChild(main_menu_li_shutdown)
 
         //Onclick event to send shutdown notification
-        main_menu_li_shutdown.addEventListener("click", () => this.sendSocketNotification("SHUTDOWN", {}));
+        //main_menu_li_shutdown.addEventListener("click", () => this.sendSocketNotification("SHUTDOWN", {}));
 
         //Restart Button
-        var main_menu_li_restart = document.createElement("li");
-        main_menu_li_restart.innerHTML = "<span class='fa fa-repeat fa-3x'></span>" + "<br>Restart";
-        main_menu_li_restart.className = "li-t"
-        main_menu_ul.appendChild(main_menu_li_restart)
-        main_menu_li_restart.addEventListener("click", () => this.sendSocketNotification("RESTART", {}));
+        //var main_menu_li_restart = document.createElement("li");
+        //main_menu_li_restart.innerHTML = "<span class='fa fa-repeat fa-3x'></span>" + "<br>Restart";
+        //main_menu_li_restart.className = "li-t"
+        //main_menu_ul.appendChild(main_menu_li_restart)
+        //main_menu_li_restart.addEventListener("click", () => this.sendSocketNotification("RESTART", {}));
 
 
         
