@@ -1,9 +1,6 @@
-/* DELETE THIS */
-html{
-  cursor: auto !important;
-}
+/* ICONS ------------------------*/
 
-.st-container {
+.icons {
   width: 100%;
   display: flex;
   left: 50%;
@@ -13,25 +10,22 @@ html{
   text-align: center;
   position: absolute;
   bottom: 30px;
+  /*left: 0;
+  right: 0;*/
   z-index: 999;
 }
 
-.st-container__standby-button{
-  z-index: -1;
-  position: absolute;
-  cursor: pointer;
-}
-
-.st-container__standby-button.is-selected {
+.home-icon.is-selected {
   z-index: 999;
 }
 
-.st-container__standby-button {
+.home-icon {
   width: 70px;
   height: 70px;
+
 }
 
-.st-container__standby-button span {
+.home-icon span {
   width: 35px;
   height: 35px;
   border: 2px solid #eee;
@@ -42,25 +36,15 @@ html{
   visibility: visible !important;
 }
 
-.st-standby {
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s 0s, opacity 1s linear;
+/*
+    Sidemenu
+--------------- */
+
+.overlay .mobile-toggle {
+  display: none;
 }
 
-.st-standby.fade {
-  visibility: hidden;
-  opacity: 0.35;
-  transition: visibility 0s 1s, opacity 1s linear;
-}
-
-.st-standby.show {
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s 0s, opacity 1s linear;
-}
-
-.st-container__menu-toggle {
+.mobile-toggle {
   width: 70px;
   height: 70px;
   margin: 0px 0 0 20px;
@@ -73,7 +57,7 @@ html{
   visibility: visible !important;
 }
 
-.st-container__menu-toggle div {
+.mobile-toggle div {
   width: 25px;
   height: 2px;
   background: #eee;
@@ -81,40 +65,46 @@ html{
   transition: all 0.3s;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+
 }
 
-.st-container__menu-toggle.show .st-toggle__bar_one {
+.mobile-toggle.show .one {
   transform: rotate(45deg) translate(5px, 5px);
 }
 
-.st-container__menu-toggle.show .st-toggle__bar_two {
+.mobile-toggle.show .two {
   opacity: 0;
 }
 
-.st-container__menu-toggle.show .st-toggle__bar_three {
+.mobile-toggle.show .three {
   transform: rotate(-45deg) translate(8px, -9px);
 }
-
-/* ====== OLD ====== */
-
-
-
-/*
-    Sidemenu
---------------- */
-
-.overlay .mobile-toggle {
-  display: none;
-}
-
-
-
-
 
 /*--- Standby ----*/
 #standby {
   z-index: -1;
   position: absolute;
+
+}
+
+/*----*/
+
+.hideUI {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s 0s, opacity 1s linear;
+}
+
+.hideUI.fade {
+  visibility: hidden;
+  opacity: 0.35;
+  transition: visibility 0s 1s, opacity 1s linear;
+}
+
+.hideUI. show {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s 0s, opacity 1s linear;
 
 }
 

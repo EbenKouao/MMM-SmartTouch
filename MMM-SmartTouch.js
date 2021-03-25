@@ -23,156 +23,87 @@ Module.register("MMM-SmartTouch", {
     return [this.file("css/mmm-smarttouch.css"), "font-awesome.css"];
   },
 
-  createContainerDiv: function() {
-    const homeDiv = document.createElement("div");
-    homeDiv.className = "st-container";
+  createContainerDiv: function () {
+    const containerDiv = document.createElement("div");
+    containerDiv.className = "st-container";
+
+    return containerDiv;
+  },
+
+  toggleStandby: function () {
+    const existingBodyClass = document.body.className;
+    if (existingBodyClass === "st-standby show") {
+      document.body.className = "st-standby fade";
+    } else {
+      document.body.className = "st-standby show";
+    }
   },
 
   createStandByButtonDiv: function () {
-    const standByDiv = document.createElement("div");
-    standByDiv.className = "st-container__standby";
+    const standByButtonDiv = document.createElement("div");
+    standByButtonDiv.className = "st-container__standby-button";
 
-    return standByDiv;
+    standByButtonDiv.appendChild(document.createElement("span"))
+    standByButtonDiv.addEventListener("click", () => this.toggleStandby());
+
+    return standByButtonDiv;
+  },
+
+  toggleSideMenu: function () {
+    const menuToggleDiv = document.getElementById("st-menu-toggle")
+    menuToggleDiv.classList.toggle('show');
+
+    const mainMenuDiv = document.getElementById("st-main-menu")
+    mainMenuDiv.classList.toggle('show')
   },
 
   createMenuToggleButtonDiv: function () {
-    const mobileToggleDiv = document.createElement("div");
-    mobileToggleDiv.className = "st-container__menu-toggle";
+    const menuToggleButtonDiv = document.createElement("div");
+    menuToggleButtonDiv.className = "st-container__menu-toggle";
+    menuToggleButtonDiv.id = "st-menu-toggle";
 
     const hamburgerLineOne = document.createElement("div");
-    hamburgerLineOne.className = "st-toggle__line_one";
+    hamburgerLineOne.className = "st-container__menu-toggle st-toggle__bar_one";
 
     const hamburgerLineTwo = document.createElement("div");
-    hamburgerLineTwo.className = "st-toggle__line_two";
+    hamburgerLineTwo.className = "st-toggle__bar_two";
 
     const hamburgerLineThree = document.createElement("div");
-    hamburgerLineThree.className = "st-toggle__line_three";
+    hamburgerLineThree.className = "st-toggle__bar_three";
 
-    mobileToggleDiv.appendChild(hamburgerLineOne);
-    mobileToggleDiv.appendChild(hamburgerLineTwo);
-    mobileToggleDiv.appendChild(hamburgerLineThree);
+    menuToggleButtonDiv.appendChild(hamburgerLineOne);
+    menuToggleButtonDiv.appendChild(hamburgerLineTwo);
+    menuToggleButtonDiv.appendChild(hamburgerLineThree);
 
-    return mobileToggleDiv;
+    menuToggleButtonDiv.addEventListener("click", () => this.toggleSideMenu());
+
+    return menuToggleButtonDiv;
   },
 
-  createMainMenuDiv: function() {
-    const homeDiv = document.createElement("div");
-    homeDiv.className = "smart-touch-container";
-  },
+  createMainMenuDiv: function () {
+    const mainMenuDiv = document.createElement("div");
+    mainMenuDiv.className = "st-container__main-menu";
+    mainMenuDiv.id = "st-main-menu";
 
-  createHomeDiv: function () {
-    const homeDiv = document.createElement("div");
-    homeDiv.className = "icons";
-
-    // StandBy Icon
-    const standByDiv = this.createStandByDiv();
-    homeDiv.appendChild(standByDiv);
-
-    // Home Icon
-    const homeIconDiv = this.createHomeIconDiv();
-
-    function StandBy() {
-      const x = document.getElementById("standby");
-      const hideUI = document.body;
-      document.body.className = "hideUI";
-
-      if (x.style.display === "none") {
-        x.style.display = "block";
-        hideUI.classList.toggle("fade");
-        homeDiv.style.visibility = "visible"
-      } else {
-        x.style.display = "none";
-        hideUI.classList.toggle("show");
-        homeDiv.style.visibility = "visible"
-      }
-    }
-
-    homeIconDiv.addEventListener("click", () => StandBy());
-    homeDiv.appendChild(homeIconDiv);
-
-    return homeDiv;
-  },
-
-  createHomeIconDiv: function () {
-    const homeIconDiv = document.createElement("div");
-    homeIconDiv.className = "home-icon";
-
-    const homeSpan = document.createElement("span");
-    homeIconDiv.appendChild(homeSpan);
-
-    return homeIconDiv;
+    return mainMenuDiv;
   },
 
   getDom: function () {
+    // Initial standby state
+    document.body.className = "st-standby show";
+
     const container = this.createContainerDiv();
 
+    const standByButton = this.createStandByButtonDiv();
+    container.appendChild(standByButton);
+
+    const menuToggleButton = this.createMenuToggleButtonDiv();
+    container.appendChild(menuToggleButton);
+
+    const mainMenu = this.createMainMenuDiv();
+    container.appendChild(mainMenu);
+
     return container;
-  },
-
-  // Override dom generator.
-  getDom2: function () {
-    // View
-    const container = this.createContainerDiv()
-
-    const standByButton = this.createStandByButtonDiv()
-    container.appendChild(standByButton)
-
-    const menuToggleButton = this.createMenuToggleButtonDiv()
-    container.appendChild(menuToggleButton)
-
-    const mainMenu = this.createMainMenuDiv()
-    container.appendChild(mainMenu)
-
-    // Controller
-
-
-
-    // Home Button
-    const homeButtonDiv = this.createHomeDiv();
-
-    // Menu Toggle Button
-    const menuToggleButtonDiv = this.createMenuToggleButtonDiv();
-    function SideMenu() {
-      const mobile_toggle_div_t = document.getElementById("show")
-      menuToggleButtonDiv.classList.toggle("show");
-
-      const main_menu_t = document.getElementById("navbar")
-      main_menu.classList.toggle("show")
-    }
-    menuToggleButtonDiv.addEventListener("click", () => SideMenu());
-
-    homeButtonDiv.appendChild(menuToggleButtonDiv)
-
-    // Main Menu Bar
-    var main_menu = document.createElement("div");
-    main_menu.className = "main-menu"
-    main_menu.id = "navbar"
-    homeButtonDiv.appendChild(main_menu)
-    var main_menu_ul = document.createElement("ul");
-    main_menu_ul.className = "navbar-nav"
-    main_menu.appendChild(main_menu_ul)
-
-    //Power Off Button
-    var main_menu_li_shutdown = document.createElement("li");
-    main_menu_li_shutdown.innerHTML = "<span class='fa fa-power-off fa-3x'></span>"
-        + "<br>Shutdown <hr>";
-    main_menu_li_shutdown.className = "li-t"
-    main_menu_ul.appendChild(main_menu_li_shutdown)
-
-    //Onclick event to send shutdown notification
-    main_menu_li_shutdown.addEventListener("click",
-        () => this.sendSocketNotification("SHUTDOWN", {}));
-
-    //Restart Button
-    var main_menu_li_restart = document.createElement("li");
-    main_menu_li_restart.innerHTML = "<span class='fa fa-repeat fa-3x'></span>"
-        + "<br>Restart";
-    main_menu_li_restart.className = "li-t"
-    main_menu_ul.appendChild(main_menu_li_restart)
-    main_menu_li_restart.addEventListener("click",
-        () => this.sendSocketNotification("RESTART", {}));
-
-    return homeButtonDiv;
   },
 
   notificationReceived: function (notification, payload, sender) {
