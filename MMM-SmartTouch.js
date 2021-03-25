@@ -7,7 +7,7 @@
  */
 
 Module.register("MMM-SmartTouch", {
-  // Default module config.
+  // Default module config."
   defaults: {
     text: "",
     position: "bottom_center",
@@ -20,93 +20,134 @@ Module.register("MMM-SmartTouch", {
   },
 
   getStyles: function () {
-    return [this.file('css/mmm-smarttouch.css'), 'font-awesome.css'];
+    return [this.file("css/mmm-smarttouch.css"), "font-awesome.css"];
   },
 
-  // Override dom generator.
-  getDom: function () {
-    var wrapper = document.createElement("div");
-    wrapper.className = 'simple-logo__container';
-    wrapper.innerHTML = "Hello, World!"
-    wrapper.style.width = this.config.width;
-    var text = document.createTextNode(this.config.text);
-    wrapper.appendChild(text);
-    var img = document.createElement("img");
-    img.setAttribute('src', this.config.fileUrl);
-    //wrapper.appendChild(img);
+  createContainerDiv: function() {
+    const homeDiv = document.createElement("div");
+    homeDiv.className = "st-container";
+  },
 
-    //Home Button
-    var home_div = document.createElement("div");
+  createStandByButtonDiv: function () {
+    const standByDiv = document.createElement("div");
+    standByDiv.className = "st-container__standby";
 
-    var simpleBlock = document.createElement("div");
-    simpleBlock.id = 'standby';
-    home_div.appendChild(simpleBlock);
+    return standByDiv;
+  },
 
-    home_div.className = 'icons';
+  createMenuToggleButtonDiv: function () {
+    const mobileToggleDiv = document.createElement("div");
+    mobileToggleDiv.className = "st-container__menu-toggle";
 
-    var home_icon = document.createElement("div");
-    home_icon.className = 'home-icon';
-    home_div.appendChild(home_icon);
+    const hamburgerLineOne = document.createElement("div");
+    hamburgerLineOne.className = "st-toggle__line_one";
 
-    var home_span = document.createElement("span");
-    home_icon.appendChild(home_span);
-    home_div.classList.add(this.config.position);
-    home_div.style.width = this.config.width;
-    home_div.appendChild(text);
+    const hamburgerLineTwo = document.createElement("div");
+    hamburgerLineTwo.className = "st-toggle__line_two";
+
+    const hamburgerLineThree = document.createElement("div");
+    hamburgerLineThree.className = "st-toggle__line_three";
+
+    mobileToggleDiv.appendChild(hamburgerLineOne);
+    mobileToggleDiv.appendChild(hamburgerLineTwo);
+    mobileToggleDiv.appendChild(hamburgerLineThree);
+
+    return mobileToggleDiv;
+  },
+
+  createMainMenuDiv: function() {
+    const homeDiv = document.createElement("div");
+    homeDiv.className = "smart-touch-container";
+  },
+
+  createHomeDiv: function () {
+    const homeDiv = document.createElement("div");
+    homeDiv.className = "icons";
+
+    // StandBy Icon
+    const standByDiv = this.createStandByDiv();
+    homeDiv.appendChild(standByDiv);
+
+    // Home Icon
+    const homeIconDiv = this.createHomeIconDiv();
 
     function StandBy() {
-      var x = document.getElementById("standby");
-      var hideUI = document.body;
+      const x = document.getElementById("standby");
+      const hideUI = document.body;
       document.body.className = "hideUI";
 
       if (x.style.display === "none") {
         x.style.display = "block";
-        hideUI.classList.toggle('fade');
-        home_div.style.visibility = "visible"
+        hideUI.classList.toggle("fade");
+        homeDiv.style.visibility = "visible"
       } else {
         x.style.display = "none";
-        hideUI.classList.toggle('show');
-        home_div.style.visibility = "visible"
+        hideUI.classList.toggle("show");
+        homeDiv.style.visibility = "visible"
       }
     }
 
-    //Menu Button
-    var mobile_toggle_div = document.createElement("div");
-    mobile_toggle_div.className = 'mobile-toggle';
-    mobile_toggle_div.id = "show"
-    home_div.appendChild(mobile_toggle_div)
+    homeIconDiv.addEventListener("click", () => StandBy());
+    homeDiv.appendChild(homeIconDiv);
 
-    var one_icon = document.createElement("div");
-    one_icon.className = 'mobile-toggle one';
-    mobile_toggle_div.appendChild(one_icon);
+    return homeDiv;
+  },
 
-    var two_icon = document.createElement("div");
-    two_icon.className = 'two';
-    mobile_toggle_div.appendChild(two_icon);
+  createHomeIconDiv: function () {
+    const homeIconDiv = document.createElement("div");
+    homeIconDiv.className = "home-icon";
 
-    var three_icon = document.createElement("div");
-    three_icon.className = 'three';
-    mobile_toggle_div.appendChild(three_icon);
+    const homeSpan = document.createElement("span");
+    homeIconDiv.appendChild(homeSpan);
 
-    //mobile_toggle_div.classList.add(this.config.position);
-    //mobile_toggle_div.style.width = this.config.width;
+    return homeIconDiv;
+  },
 
-    home_icon.addEventListener("click", () => StandBy());
+  getDom: function () {
+    const container = this.createContainerDiv();
 
+    return container;
+  },
+
+  // Override dom generator.
+  getDom2: function () {
+    // View
+    const container = this.createContainerDiv()
+
+    const standByButton = this.createStandByButtonDiv()
+    container.appendChild(standByButton)
+
+    const menuToggleButton = this.createMenuToggleButtonDiv()
+    container.appendChild(menuToggleButton)
+
+    const mainMenu = this.createMainMenuDiv()
+    container.appendChild(mainMenu)
+
+    // Controller
+
+
+
+    // Home Button
+    const homeButtonDiv = this.createHomeDiv();
+
+    // Menu Toggle Button
+    const menuToggleButtonDiv = this.createMenuToggleButtonDiv();
     function SideMenu() {
-      var mobile_toggle_div_t = document.getElementById("show")
-      mobile_toggle_div.classList.toggle('show');
-      var main_menu_t = document.getElementById("navbar")
-      main_menu.classList.toggle('show')
+      const mobile_toggle_div_t = document.getElementById("show")
+      menuToggleButtonDiv.classList.toggle("show");
+
+      const main_menu_t = document.getElementById("navbar")
+      main_menu.classList.toggle("show")
     }
+    menuToggleButtonDiv.addEventListener("click", () => SideMenu());
 
-    mobile_toggle_div.addEventListener("click", () => SideMenu());
+    homeButtonDiv.appendChild(menuToggleButtonDiv)
 
-    //Main Menu Bar
+    // Main Menu Bar
     var main_menu = document.createElement("div");
     main_menu.className = "main-menu"
     main_menu.id = "navbar"
-    home_div.appendChild(main_menu)
+    homeButtonDiv.appendChild(main_menu)
     var main_menu_ul = document.createElement("ul");
     main_menu_ul.className = "navbar-nav"
     main_menu.appendChild(main_menu_ul)
@@ -131,7 +172,7 @@ Module.register("MMM-SmartTouch", {
     main_menu_li_restart.addEventListener("click",
         () => this.sendSocketNotification("RESTART", {}));
 
-    return home_div;
+    return homeButtonDiv;
   },
 
   notificationReceived: function (notification, payload, sender) {
