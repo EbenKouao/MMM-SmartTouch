@@ -5,11 +5,7 @@
  * https://smartbuilds.io
  * MIT Licensed.
  */
-
-var util = require("util");
-
-var NodeHelper = require("node_helper")
-const exec = require("child_process").exec;
+const NodeHelper = require("node_helper")
 
 module.exports = NodeHelper.create({
   start: function () {
@@ -18,8 +14,6 @@ module.exports = NodeHelper.create({
   },
 
   socketNotificationReceived: function (notification, payload) {
-    var self = this;
-
     if (notification === 'CONFIG') {
       if (!this.started) {
         this.config = payload;
@@ -30,28 +24,13 @@ module.exports = NodeHelper.create({
     }
 
     if (notification === "SHUTDOWN") {
-      console.log("Shutting Down!")
+      console.log("Shutting down Rpi...")
       require('child_process').exec('shutdown -h now', console.log)
     }
 
     if (notification === "RESTART") {
-      console.log("Restarting Magic Mirror!")
+      console.log("Restarting Rpi...")
       require('child_process').exec('sudo reboot', console.log)
     }
   },
-
-  checkForExecError: function (error, stdout, stderr) {
-    if (stderr) {
-      console.log('stderr: "' + stderr + '"');
-      return 1;
-    }
-
-    if (error !== null) {
-      console.log('exec error: ' + error);
-      return 1;
-    }
-
-    return 0;
-  },
-
 });

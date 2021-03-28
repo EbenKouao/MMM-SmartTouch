@@ -1,8 +1,3 @@
-/* DELETE THIS */
-html{
-  cursor: auto !important;
-}
-
 .st-container {
   width: 100%;
   display: flex;
@@ -16,12 +11,6 @@ html{
   z-index: 999;
 }
 
-.st-container__standby-button{
-  z-index: -1;
-  position: absolute;
-  cursor: pointer;
-}
-
 .st-container__standby-button.is-selected {
   z-index: 999;
 }
@@ -29,6 +18,7 @@ html{
 .st-container__standby-button {
   width: 70px;
   height: 70px;
+  cursor: pointer;
 }
 
 .st-container__standby-button span {
@@ -63,7 +53,7 @@ html{
 .st-container__menu-toggle {
   width: 70px;
   height: 70px;
-  margin: 0px 0 0 20px;
+  margin: 0 0 0 20px;
   cursor: pointer;
   z-index: 999;
   display: flex;
@@ -95,93 +85,45 @@ html{
   transform: rotate(-45deg) translate(8px, -9px);
 }
 
-/* ====== OLD ====== */
-
-
-
-/*
-    Sidemenu
---------------- */
-
-.overlay .mobile-toggle {
-  display: none;
-}
-
-
-
-
-
-/*--- Standby ----*/
-#standby {
-  z-index: -1;
-  position: absolute;
-
-}
-
-/*--- Main Menu -----*/
-
-.main-menu {
-  color: white;
-  margin: auto;
-  /*max-width: 100%;*/
-  padding: 20px;
+.st-container__main-menu {
+  width: 0;
   position: fixed;
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 999;
+  z-index: 1;
+  top: 20%;
+  right: -2px;
+  background: rgba(0, 0, 0, 0.9);
+  overflow-x: hidden;
   transition: all ease 0.5s;
-  right: 0;
-  width: 100px;
-  height: 300px;
-  bottom: 200px;
-  transform: translateX(600%);
-  overflow: hidden;
-  overflow-y: auto;
-  display: block;
+  color: white;
   border-radius: 10px 0 0 10px;
   border: 2px solid #eee;
   border-right: 0;
-  float: right;
-
-  position: absolute;
-
-}
-
-.main-menu.show {
-  transform: translateX(350%);
-  /* Debugging Purposes
-  transform: translateX(160%);
-  */
   visibility: visible;
-  -webkit-overflow-scrolling: touch;
 }
 
-.main-menu ul.navbar-nav {
-  margin: 0px 0;
-  padding: 0;
+.st-container__main-menu.show {
+  width: 150px;
+  right: 0;
+}
+
+.st-container__main-menu > ul {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 0;
   list-style: none;
   flex-direction: column;
   text-align: center;
+  white-space: nowrap;
+  text-transform: uppercase;
 }
 
-ul.navbar-nav > li {
-  padding: 10px 0;
-}
-
-ul.navbar-nav > li > a {
-  color: #eee;
-  text-decoration: none;
-  display: block;
-}
-
-ul.navbar-nav > li > a i {
+.st-container__main-menu > ul > li {
   font-size: 16px;
-  display: block;
-  text-align: center !important;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #666;
 }
 
-.li-t {
-
-  font-size: 16px;
-  margin-bottom: 10%;
-
+.st-container__main-menu > ul > li:last-child {
+  border: 0;
 }

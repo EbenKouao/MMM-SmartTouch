@@ -1,12 +1,17 @@
 # MMM-SmartTouch
 
-A module for controlling your [MagicMirror](https://github.com/MichMich/MagicMirror) using a touchscreen interface project by [SmartBuilds.io](http:smartbuilds.io)
+A module for controlling your [MagicMirror](https://github.com/MichMich/MagicMirror) using a
+touchscreen interface project by [SmartBuilds.io](http:smartbuilds.io)
 
 ## How it works
 
-This module allows you to transform your magic mirror into a touchscreen interactive experience. This includes:
-* Standby Mode - Hide all magic mirror modules and convert back to a normal mirror by pressing tne cycle button.
-* Side Menu - Menu widget includes a shutdown and restart to safely power down your mirror without unplugging and forced shutdowns. (preventing SD card corruptions)
+This module allows you to transform your magic mirror into a touchscreen interactive experience.
+This includes:
+
+* **Standby Mode** - Hide all magic mirror modules and convert back to a normal mirror by pressing tne
+  cycle button.
+* **Side Menu** - Menu widget includes a _shutdown_ and _restart_ of Rpi to safely power down your mirror
+  without unplugging and forced shutdowns (preventing SD card corruptions).
 
 ## Screenshots
 
@@ -45,11 +50,11 @@ Here is an example for an entry in `config.js`
 
 ```javascript
 {
-    module: 'MMM-SmartTouch',
-    position: 'bottom_center',    // This can be any of the regions.(bottom-center Recommended)
-    config: {
-        // None configuration options defined
-    }
+  module: 'MMM-SmartTouch', 
+  position: 'bottom_center',    // This can be any of the regions.(bottom-center Recommended)
+  config:{ 
+    // None configuration options defined 
+  }
 }
 ```
 

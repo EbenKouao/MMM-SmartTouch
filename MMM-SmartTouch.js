@@ -7,20 +7,24 @@
  */
 
 Module.register("MMM-SmartTouch", {
-  // Default module config."
   defaults: {
-    text: "",
-    position: "bottom_center",
-    refreshInterval: 0
   },
 
   start: function () {
-    console.log(this.name + " has started...");
+    Log.info(this.name + " has started...");
     this.sendSocketNotification("CONFIG", this.config);
   },
 
   getStyles: function () {
     return [this.file("css/mmm-smarttouch.css"), "font-awesome.css"];
+  },
+
+  // Load translations files
+  getTranslations: function () {
+    return {
+      en: "translations/en.json",
+      nb: "translations/nb.json",
+    };
   },
 
   createContainerDiv: function () {
@@ -80,10 +84,45 @@ Module.register("MMM-SmartTouch", {
     return menuToggleButtonDiv;
   },
 
+  createShutdownButton: function () {
+    const shutdownButtonItem = document.createElement("li");
+    shutdownButtonItem.innerHTML = "<span class='fa fa-power-off fa-3x'></span>"
+        + "<br>" +  this.translate('SHUTDOWN');
+    shutdownButtonItem.className = "li-t"
+
+    // Send shutdown notification when clicked
+    shutdownButtonItem.addEventListener("click",
+        () => this.sendSocketNotification("SHUTDOWN", {}));
+
+    return shutdownButtonItem
+  },
+
+  createRestartButton: function () {
+    const restartButtonItem = document.createElement("li");
+    restartButtonItem.innerHTML = "<span class='fa fa-repeat fa-3x'></span>"
+        + "<br>" + this.translate('RESTART');
+    restartButtonItem.className = "li-t"
+
+    // Send restart notification when clicked
+    restartButtonItem.addEventListener("click",
+        () => this.sendSocketNotification("RESTART", {}));
+
+    return restartButtonItem
+  },
+
   createMainMenuDiv: function () {
     const mainMenuDiv = document.createElement("div");
     mainMenuDiv.className = "st-container__main-menu";
     mainMenuDiv.id = "st-main-menu";
+
+    const shutdownButton = this.createShutdownButton();
+    const restartButton = this.createRestartButton();
+
+    const buttonList = document.createElement("ul");
+    buttonList.appendChild(shutdownButton);
+    buttonList.appendChild(restartButton);
+
+    mainMenuDiv.appendChild(buttonList);
 
     return mainMenuDiv;
   },
@@ -101,25 +140,16 @@ Module.register("MMM-SmartTouch", {
     container.appendChild(menuToggleButton);
 
     const mainMenu = this.createMainMenuDiv();
-    container.appendChild(mainMenu);
+    document.body.appendChild(mainMenu);
 
     return container;
   },
 
   notificationReceived: function (notification, payload, sender) {
-    if (notification === "Recieved") {
-      //this.doMenuAction(payload);
-      console.log("Hi")
-    }
   },
 
-  //Recieve notification from sockets via nodehelper.js
+  // Recieve notification from sockets via nodehelper.js
   socketNotificationReceived: function (notification, payload) {
-    switch (notification) {
-      case "Sent":
-        console.log("Hi");
-        break;
-    }
   },
 
 });
