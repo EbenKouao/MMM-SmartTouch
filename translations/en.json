@@ -1,0 +1,4 @@
+{
+  "SHUTDOWN": "Shutdown Rpi",
+  "RESTART": "Restart Rpi"
+}

@@ -7,168 +7,149 @@
  */
 
 Module.register("MMM-SmartTouch", {
-    // Default module config.
-    defaults: {
-        text: "",
-        position: "bottom_center",
-        refreshInterval: 0
-    },
+  defaults: {
+  },
 
-    start: function() {
+  start: function () {
+    Log.info(this.name + " has started...");
+    this.sendSocketNotification("CONFIG", this.config);
+  },
 
-        console.log(this.name + " has started...");
+  getStyles: function () {
+    return [this.file("css/mmm-smarttouch.css"), "font-awesome.css"];
+  },
 
-        this.sendSocketNotification("CONFIG", this.config);
-    },
+  // Load translations files
+  getTranslations: function () {
+    return {
+      en: "translations/en.json",
+      nb: "translations/nb.json",
+    };
+  },
 
-    getStyles: function () {
-        return [this.file('css/mmm-smarttouch.css'),'font-awesome.css'];
-    },
+  createContainerDiv: function () {
+    const containerDiv = document.createElement("div");
+    containerDiv.className = "st-container";
 
+    return containerDiv;
+  },
 
-    // Override dom generator.
-    getDom: function() {
-    
-        var wrapper = document.createElement("div");
-        wrapper.className = 'simple-logo__container';
-        wrapper.innerHTML = "Hello, World!"
-        wrapper.classList.add(this.config.position);
-        wrapper.style.width = this.config.width;
-        var text = document.createTextNode(this.config.text);
-        wrapper.appendChild(text);
-        var img = document.createElement("img");
-        img.setAttribute('src', this.config.fileUrl);
-        //wrapper.appendChild(img);
+  toggleStandby: function () {
+    const existingBodyClass = document.body.className;
+    if (existingBodyClass === "st-standby show") {
+      document.body.className = "st-standby fade";
+    } else {
+      document.body.className = "st-standby show";
+    }
+  },
 
-        //Home Button
-        var home_div = document.createElement("div");
+  createStandByButtonDiv: function () {
+    const standByButtonDiv = document.createElement("div");
+    standByButtonDiv.className = "st-container__standby-button";
 
-        var simpleBlock = document.createElement("div");
-        simpleBlock.id = 'standby';
-        home_div.appendChild(simpleBlock);
+    standByButtonDiv.appendChild(document.createElement("span"))
+    standByButtonDiv.addEventListener("click", () => this.toggleStandby());
 
+    return standByButtonDiv;
+  },
 
-        home_div.className = 'icons';
+  toggleSideMenu: function () {
+    const menuToggleDiv = document.getElementById("st-menu-toggle")
+    menuToggleDiv.classList.toggle('show');
 
-        var home_icon = document.createElement("div");
+    const mainMenuDiv = document.getElementById("st-main-menu")
+    mainMenuDiv.classList.toggle('show')
+  },
 
+  createMenuToggleButtonDiv: function () {
+    const menuToggleButtonDiv = document.createElement("div");
+    menuToggleButtonDiv.className = "st-container__menu-toggle";
+    menuToggleButtonDiv.id = "st-menu-toggle";
 
-        home_icon.className = 'home-icon';
+    const hamburgerLineOne = document.createElement("div");
+    hamburgerLineOne.className = "st-container__menu-toggle st-toggle__bar_one";
 
-        home_div.appendChild(home_icon);
-        var home_span = document.createElement("span");
-        home_icon.appendChild(home_span);
-        home_div.classList.add(this.config.position);
-        home_div.style.width = this.config.width;
-        home_div.appendChild(text);
+    const hamburgerLineTwo = document.createElement("div");
+    hamburgerLineTwo.className = "st-toggle__bar_two";
 
+    const hamburgerLineThree = document.createElement("div");
+    hamburgerLineThree.className = "st-toggle__bar_three";
 
-        function StandBy() {
-          var x = document.getElementById("standby");
-          var hideUI = document.body;
-          document.body.className = "hideUI";
+    menuToggleButtonDiv.appendChild(hamburgerLineOne);
+    menuToggleButtonDiv.appendChild(hamburgerLineTwo);
+    menuToggleButtonDiv.appendChild(hamburgerLineThree);
 
+    menuToggleButtonDiv.addEventListener("click", () => this.toggleSideMenu());
 
-          if (x.style.display === "none") {
-            x.style.display = "block";
-            hideUI.classList.toggle('fade');
-            home_div.style.visibility = "visible"
-   
-          } else {
-            x.style.display = "none";
-            hideUI.classList.toggle('show');
-            home_div.style.visibility = "visible"
+    return menuToggleButtonDiv;
+  },
 
-          }
-        }
+  createShutdownButton: function () {
+    const shutdownButtonItem = document.createElement("li");
+    shutdownButtonItem.innerHTML = "<span class='fa fa-power-off fa-3x'></span>"
+        + "<br>" +  this.translate('SHUTDOWN');
+    shutdownButtonItem.className = "li-t"
 
-        //Menu Button
-        var mobile_toggle_div = document.createElement("div");
-        mobile_toggle_div.className = 'mobile-toggle';
-        mobile_toggle_div.id = "show"
-        home_div.appendChild(mobile_toggle_div)
+    // Send shutdown notification when clicked
+    shutdownButtonItem.addEventListener("click",
+        () => this.sendSocketNotification("SHUTDOWN", {}));
 
-        
-        var one_icon = document.createElement("div");
-        one_icon.className = 'mobile-toggle one';
-        mobile_toggle_div.appendChild(one_icon);
+    return shutdownButtonItem
+  },
 
-        var two_icon = document.createElement("div");
-        two_icon.className = 'two';
-        mobile_toggle_div.appendChild(two_icon);
+  createRestartButton: function () {
+    const restartButtonItem = document.createElement("li");
+    restartButtonItem.innerHTML = "<span class='fa fa-repeat fa-3x'></span>"
+        + "<br>" + this.translate('RESTART');
+    restartButtonItem.className = "li-t"
 
-        var three_icon = document.createElement("div");
-        three_icon.className = 'three';
-        mobile_toggle_div.appendChild(three_icon);
-        
-        //mobile_toggle_div.classList.add(this.config.position);
-        //mobile_toggle_div.style.width = this.config.width;
+    // Send restart notification when clicked
+    restartButtonItem.addEventListener("click",
+        () => this.sendSocketNotification("RESTART", {}));
 
-        home_icon.addEventListener("click", () => StandBy());
+    return restartButtonItem
+  },
 
+  createMainMenuDiv: function () {
+    const mainMenuDiv = document.createElement("div");
+    mainMenuDiv.className = "st-container__main-menu";
+    mainMenuDiv.id = "st-main-menu";
 
-        function SideMenu() {
-          
-        var mobile_toggle_div_t = document.getElementById("show")
-        mobile_toggle_div.classList.toggle('show');
-        var main_menu_t = document.getElementById("navbar")
-        main_menu.classList.toggle('show')
-          
-        }
+    const shutdownButton = this.createShutdownButton();
+    const restartButton = this.createRestartButton();
 
-        mobile_toggle_div.addEventListener("click", () => SideMenu());
+    const buttonList = document.createElement("ul");
+    buttonList.appendChild(shutdownButton);
+    buttonList.appendChild(restartButton);
 
-        //Main Menu Bar
-        var main_menu = document.createElement("div");
-        main_menu.className = "main-menu"
-        main_menu.id = "navbar"
-        home_div.appendChild(main_menu)
-        var main_menu_ul = document.createElement("ul");
-        main_menu_ul.className = "navbar-nav"
-        main_menu.appendChild(main_menu_ul)
-        
-        //Power Off Button
-        var main_menu_li_shutdown = document.createElement("li");
-        main_menu_li_shutdown.innerHTML = "<span class='fa fa-power-off fa-3x'></span>" + "<br>Shutdown <hr>";
-        main_menu_li_shutdown.className = "li-t"
-        main_menu_ul.appendChild(main_menu_li_shutdown)
+    mainMenuDiv.appendChild(buttonList);
 
-        //Onclick event to send shutdown notification
-        main_menu_li_shutdown.addEventListener("click", () => this.sendSocketNotification("SHUTDOWN", {}));
+    return mainMenuDiv;
+  },
 
-        //Restart Button
-        var main_menu_li_restart = document.createElement("li");
-        main_menu_li_restart.innerHTML = "<span class='fa fa-repeat fa-3x'></span>" + "<br>Restart";
-        main_menu_li_restart.className = "li-t"
-        main_menu_ul.appendChild(main_menu_li_restart)
-        main_menu_li_restart.addEventListener("click", () => this.sendSocketNotification("RESTART", {}));
+  getDom: function () {
+    // Initial standby state
+    document.body.className = "st-standby show";
 
+    const container = this.createContainerDiv();
 
-        
-        return home_div;
-    },
+    const standByButton = this.createStandByButtonDiv();
+    container.appendChild(standByButton);
 
-    notificationReceived: function(notification, payload, sender) {
-        
-        if (notification === "Recieved") {
-            //this.doMenuAction(payload);
-            console.log("Hi")
-        }
+    const menuToggleButton = this.createMenuToggleButtonDiv();
+    container.appendChild(menuToggleButton);
 
-    },
+    const mainMenu = this.createMainMenuDiv();
+    document.body.appendChild(mainMenu);
 
-    //Recieve notification from sockets via nodehelper.js
-    socketNotificationReceived: function(notification, payload) {
-    
+    return container;
+  },
 
-    switch(notification) {
-      case "Sent":
-          
-        console.log("Hi");
-         
-      break;
+  notificationReceived: function (notification, payload, sender) {
+  },
 
-  }
-},
+  // Recieve notification from sockets via nodehelper.js
+  socketNotificationReceived: function (notification, payload) {
+  },
 
 });
